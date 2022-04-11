@@ -31,7 +31,7 @@ def main():
 				if event.key in Settings.PLAYER_MANAGER.keys():
 					hero_.update(Settings.PLAYER_MANAGER[event.key])
 				if event.key == pygame.K_SPACE:
-					hero_.attack([s for s in sprites][1])
+					hero_.attack([s for s in sprites][0])
 
 		screen.fill((255, 255, 255))
 

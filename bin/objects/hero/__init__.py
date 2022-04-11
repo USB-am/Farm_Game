@@ -3,7 +3,8 @@
 import pygame
 
 import settings as Settings
-from .abstract_enemy import Enemy
+from bin.objects.abstract_enemy import Enemy
+from .inventory import Inventory
 
 
 class Hero(Enemy):
@@ -18,6 +19,8 @@ class Hero(Enemy):
 
 		self.image = pygame.Surface(self.rect.size)
 		self.image.fill((255, 0, 0))
+
+		self.inventory = Inventory()
 
 	def update(self, direction: str) -> None:
 		up = direction == 'up'
