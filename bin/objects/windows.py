@@ -30,6 +30,7 @@ class Window(pygame.sprite.Group):
 
 
 class Shop(Window):
+	''' Abstract shop class '''
 	def __init__(self):
 		super().__init__(size=(.9, .9))
 

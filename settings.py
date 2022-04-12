@@ -4,6 +4,7 @@ import pygame
 
 
 SCREEN = pygame.Rect((0, 0, 400, 250))
+BLOCK = pygame.Rect((0, 0, 30, 30))
 
 MOVE_SPEED = 10
 PLAYER_MANAGER = {

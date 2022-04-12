@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import unittest
+
 import pygame
 
 from bin.objects import hero, peaceful_enemy, enemy

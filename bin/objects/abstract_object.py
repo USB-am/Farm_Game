@@ -2,6 +2,8 @@
 
 import pygame
 
+import settings as Settings
+
 
 class PropertyValue:
 	def __init__(self, value: int):
@@ -20,7 +22,12 @@ class BaseObject(pygame.sprite.Sprite):
 	def __init__(self, health: int, energy: int, rect: pygame.Rect):
 		self.health = PropertyValue(health)
 		self.energy = PropertyValue(energy)
-		self.rect = pygame.Rect(rect.x*30, rect.y*30, rect.width*30, rect.height*30)
+
+		b_width, b_height = Settings.BLOCK.size
+		self.rect = pygame.Rect(
+			rect.x * b_width, rect.y * b_height,
+			rect.width * b_width, rect.height * b_height
+		)
 
 		super().__init__()
 
