@@ -4,8 +4,8 @@ from config import SCREEN
 
 
 class Camera(pygame.sprite.LayeredUpdates):
-	def __init__(self, target: pygame.sprite.Sprite, world_size: pygame.Rect):
-		super().__init__()
+	def __init__(self, target: pygame.sprite.Sprite, world_size: pygame.Rect, *groups):
+		super().__init__(*groups)
 
 		self.target = target
 		if self.target:

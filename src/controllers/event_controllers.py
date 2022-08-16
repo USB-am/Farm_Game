@@ -20,11 +20,10 @@ class EventController:
 		self.map_ = Map(path_to_first_level)
 		self.map_.load_map()
 
-		self.hero = Hero(self.platforms, (100, 100))
-		self.platforms.add(self.hero)
-		self.camera = Camera(self.hero, self.map_.size)
 		self.platforms.add(self.map_)
-		self.camera.add(self.map_)
+
+		self.hero = Hero(self.platforms, (100, 100))
+		self.camera = Camera(self.hero, self.map_.size, self.map_)
 
 	def check_event(self) -> None:
 		for event in pygame.event.get():
@@ -34,10 +33,7 @@ class EventController:
 				self.is_worked = False
 
 	def update(self) -> None:
-		self.map_.update()
 		self.camera.update()
 
 	def draw(self) -> None:
-		# pygame.sprite.Group.draw(self.platforms, self.root)
 		self.camera.draw(self.root)
-		# pygame.sprite.Group.draw(self.map_, self.root)
