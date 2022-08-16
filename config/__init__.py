@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 
@@ -9,4 +11,8 @@ PLAYER_CONTROL = {
 	'left':  pygame.K_a,
 	'down':  pygame.K_s,
 	'right': pygame.K_d,
+	'run':   pygame.K_LSHIFT,
 }
+
+BASE_DIR = os.getcwd()
+LEVELS_DIR = os.path.join(BASE_DIR, 'src', 'map', 'levels')

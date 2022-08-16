@@ -13,13 +13,10 @@ class Hero(Entity):
 
 		self.platforms = platforms
 		self.vec = pygame.Vector2((0, 0))
-		self.move_speed = 3
+		self.move_speed = 40
 
 	def update(self) -> None:
 		self.check_events()
-
-	def draw(self, *args) -> None:
-		print(f'Hero.draw has args={args}')
 
 	def check_events(self) -> None:
 		pressed = pygame.key.get_pressed()
@@ -29,27 +26,33 @@ class Hero(Entity):
 		left  = pressed[get_control('left',  False)]
 		down  = pressed[get_control('down',  False)]
 		right = pressed[get_control('right', False)]
+		run   = pressed[get_control('run',   False)]
 
 		if any((up, left, down, right)):
-			self.move(up, left, down, right)
-		else:
-			self.vec.x = 0
-			self.vec.y = 0
+			self.move(up, left, down, right, run)
 
-	def move(self, up: bool, left: bool, down: bool, right: bool) -> None:
+	def move(self, up: bool, left: bool, down: bool, right: bool, run: bool) -> None:
 		if up:
-			self.vec.y = self.move_speed
-		if left:
-			self.vec.x = self.move_speed
-		if down:
 			self.vec.y = -self.move_speed
-		if right:
+		if left:
 			self.vec.x = -self.move_speed
+		if down:
+			self.vec.y = self.move_speed
+		if right:
+			self.vec.x = self.move_speed
+		if run:
+			self.vec.x *= 1.2
+			self.vec.y *= 1.2
 
 		self.rect.left += self.vec.x
 		self.collide(self.vec.x, 0, self.platforms)
 		self.rect.top  += self.vec.y
 		self.collide(0, self.vec.y, self.platforms)
+
+		if not (left or right):
+			self.vec.x = 0
+		if not (up or down):
+			self.vec.y = 0
 
 	def collide(self, xvec, yvec, blocks):
 		for block in blocks:
