@@ -2,8 +2,7 @@
 
 import pygame
 
-from config import SCREEN
-from src.controllers.event_controllers import EventController
+from config import SCREEN, FPS
 
 
 pygame.init()
@@ -16,19 +15,18 @@ class Application:
 
 		self.timer = pygame.time.Clock()
 
-		self.event_controller = EventController(self.screen)
-
 	def run(self) -> None:
-		while self.event_controller.is_worked:
-			self.event_controller.check_event()
+		_RUN = True
 
-			self.screen.fill((0, 0, 0))
+		while _RUN:
+			self.screen.fill((255, 255, 255))
 
-			self.event_controller.update()
-			self.event_controller.draw()
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					_RUN = False
 
-			pygame.display.update()
-			self.timer.tick(60)
+			pygame.display.flip()
+			self.timer.tick(FPS)
 
 
 if __name__ == '__main__':
