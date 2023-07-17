@@ -3,6 +3,7 @@
 import pygame
 
 from config import SCREEN, FPS
+from controllers import MenuController
 
 
 pygame.init()
@@ -14,16 +15,13 @@ class Application:
 		pygame.display.set_caption('Stardew Valley')
 
 		self.timer = pygame.time.Clock()
+		self.view = MenuController(self.screen)
 
 	def run(self) -> None:
-		_RUN = True
-
-		while _RUN:
+		while self.view.RUN:
 			self.screen.fill((255, 255, 255))
 
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					_RUN = False
+			self.view.check_events()
 
 			pygame.display.flip()
 			self.timer.tick(FPS)
