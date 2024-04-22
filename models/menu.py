@@ -1,2 +1,0 @@
-class MenuModel:
-	pass

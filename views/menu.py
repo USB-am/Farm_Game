@@ -1,2 +1,0 @@
-class MenuView:
-	pass
