@@ -4,6 +4,8 @@ from exceptions import properties as Exc
 
 
 class IntegerProperty:
+	''' Положительное целое число '''
+
 	def __set_name__(self, owner, name):
 		self.public_name = name
 		self.private_name = '_' + name
@@ -18,7 +20,9 @@ class IntegerProperty:
 		instance.__dict__[self.private_name] = value
 
 
-class ItemProperty:
+class TypeProperty:
+	''' Объект строго по заданному типу '''
+
 	def __init__(self, obj_type: Any):
 		self.obj_type = obj_type
 
