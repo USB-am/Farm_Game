@@ -1,10 +1,10 @@
-from . import Entity
+from . import Creature
 from .equipment import Equipment
 from .inventory import Inventory
 from item import *
 
 
-class Hero(Entity):
+class Hero(Creature):
 	def __init__(self, name: str):
 		self.name = name
 		self.equipment = Equipment()
