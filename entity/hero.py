@@ -9,8 +9,9 @@ class Hero(Entity):
 		self.name = name
 		self.equipment = Equipment()
 		self.inventory = Inventory()
-		self.inventory.append(Helmet(title='Super Helmet'))
-		print(self.inventory)
+		self.inventory.append(Helmet(title='Super Helmet1'))
+		self.inventory.append(Helmet(title='Super Helmet2'))
+		self.inventory[0].get(count=1)
 
 		super().__init__(hp=50, mp=50, endurance=50, damage=10)
 

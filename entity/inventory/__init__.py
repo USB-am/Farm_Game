@@ -15,16 +15,19 @@ class InventoryCell(list):
 			self.obj_type = type(element)
 
 		if not isinstance(element, self.obj_type):
-			raise Exc.InventoryElementTypeError
+			raise Exc.InventoryElementTypeError(f'{element.__class__} type is not {self.obj_type}')
 
 		super().append(element)
 
-	def __getitem__(self, count: int) -> Tuple[Item]:
+	def get(self, count: int) -> Tuple[Item]:
 		if len(self) < count:
 			raise Exc.InventoryElementCountError
 
 		output = self[:count]
-		self = self[count:]
+		[self.pop(0) for _ in range(count)]
+		if not self:
+			self.obj_type = None
+
 		return output
 
 	def is_empty(self) -> bool:
@@ -35,8 +38,8 @@ class Inventory(list):
 	''' Инвентарь '''
 
 	def __init__(self, size: int=10):
-		super().__init__()
 		self._size = size
+		super().__init__(InventoryCell() for _ in range(self.size))
 
 	@property
 	def size(self) -> int:
@@ -44,16 +47,29 @@ class Inventory(list):
 
 	@size.setter
 	def size(self, value: int) -> None:
-		if value < len(self):
+		if value < self.length:
 			raise Exc.InventoryOverSizeError
 
 		self._size = value
 
+	@property
+	def length(self) -> int:
+		''' Получить длину инвентаря '''
+		return sum((1 for cell in self if not cell.is_empty()))
+
 	def append(self, elem: Item) -> None:
-		if len(self) + 1 > self.size:
+		''' Добавить в инвентарь '''
+		if self.length + 1 > self.size:
 			raise Exc.InventoryFilledError
 
-		super().append(elem)
+		for cell in self:
+			try:
+				cell.append(elem)
+				break
+			except Exc.InventoryElementTypeError:
+				pass
+		else:
+			raise Exc.InventoryFilledError
 
 	def __str__(self):
-		return f'Inventory {len(self)}/{self.size}'
+		return f'Inventory {self.length}/{self.size}'

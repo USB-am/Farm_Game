@@ -8,3 +8,7 @@ class InventoryOverSizeError(Exception):
 
 class InventoryElementCountError(Exception):
 	''' Ошибка при попытке получения количества элементов ячейки инвентаря > имеющегося '''
+
+
+class InventoryElementTypeError(Exception):
+	''' Ошибка при попытке добавления к InventoryCell элемента другого типа '''
