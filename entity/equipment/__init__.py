@@ -1,6 +1,7 @@
 from enum import Enum
 
-from item import Item, Helmet, Armor, Bracers, Leggins, Boots
+from item import Item
+from item.equipment import Helmet, Armor, Bracers, Leggins, Boots
 from properties import TypeProperty
 
 

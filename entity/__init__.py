@@ -25,13 +25,11 @@ class Entity(ABC):
 	''' Сущность всего материального '''
 
 	hp = IntegerProperty()
-	mp = IntegerProperty()
 	endurance = IntegerProperty()
 	damage = IntegerProperty()
 
-	def __init__(self, hp: int=1, mp: int=1, endurance: int=1, damage: int=1):
+	def __init__(self, hp: int=1, endurance: int=1, damage: int=1):
 		self.hp = hp
-		self.mp = mp
 		self.endurance = endurance
 		self.damage = damage
 
