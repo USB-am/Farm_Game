@@ -1,5 +1,6 @@
 import unittest
 
+from entity.equipment import Equipment
 from entity.inventory import Inventory, InventoryCell
 from item.equipment import Helmet
 from exceptions import inventory as ExcInventory
@@ -36,3 +37,20 @@ class TestInventory(unittest.TestCase):
 
 		with self.assertRaises(ExcInventory.InventoryElementCountError):
 			self.inventory[0].get(count=1)
+
+
+class TestEquipment(unittest.TestCase):
+	''' Тесты экипировки '''
+
+	@classmethod
+	def setUpClass(cls):
+		cls.equipment = Equipment()
+
+	def test_equip(self):
+		''' Тест экипирования '''
+
+		helmet = Helmet(title='Test Helmet')
+		self.equipment.equip(helmet)
+
+		self.assertIs(self.equipment.helmet, helmet)
+		self.assertIsInstance(self.equipment.helmet, Helmet)
