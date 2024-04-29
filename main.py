@@ -1,7 +1,7 @@
 import logging
 
-from entity.hero import Hero
-from entity.enemy import Goblin
+from model.entity.hero import Hero
+from model.entity.enemy import Goblin
 
 
 # Set logging level

@@ -4,7 +4,6 @@ from typing import Tuple
 from pygame import Rect
 
 import settings
-from entity import TEntity
 
 
 class Object(ABC):

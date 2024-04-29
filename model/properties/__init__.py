@@ -1,7 +1,7 @@
 from abc import ABC, abstractclassmethod
 from typing import Any
 
-from exceptions import properties as Exc
+from model.exceptions import properties as Exc
 
 
 class _Property(ABC):

@@ -1,8 +1,8 @@
 from enum import Enum
 
-from item import Item
-from item.equipment import Helmet, Armor, Bracers, Leggins, Boots
-from properties import TypeProperty
+from model.item import Item
+from model.item.equipment import Helmet, Armor, Bracers, Leggins, Boots
+from model.properties import TypeProperty
 
 
 class EquipTypes(Enum):

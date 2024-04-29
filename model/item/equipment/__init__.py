@@ -1,7 +1,7 @@
 from abc import ABC
 
-from item import Item
-from properties import NumberProperty, IntegerProperty
+from model.item import Item
+from model.properties import NumberProperty, IntegerProperty
 
 
 class BaseEquipment(Item):

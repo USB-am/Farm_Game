@@ -1,7 +1,7 @@
 from typing import Type, Tuple, List
 
-from item import Item
-from exceptions import inventory as Exc
+from model.item import Item
+from model.exceptions import inventory as Exc
 
 
 class InventoryCell(list):

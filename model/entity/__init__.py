@@ -2,10 +2,10 @@ import logging
 from abc import ABC
 from typing import Any, List, TypeVar
 
-from properties import IntegerProperty
-from item import Item
-from exceptions import properties as PropExc
-from exceptions import entities as Exc
+from model.properties import IntegerProperty
+from model.item import Item
+from model.exceptions import properties as PropExc
+from model.exceptions import entities as Exc
 
 
 TEntity = TypeVar('TEntity', bound='Entity')
