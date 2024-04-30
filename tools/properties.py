@@ -1,3 +1,6 @@
+from abc import ABC, abstractclassmethod
+
+
 class _Property(ABC):
 	''' Шаблон '''
 

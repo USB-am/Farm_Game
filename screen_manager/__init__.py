@@ -26,3 +26,9 @@ class ScreenManager(dict):
 		self.active = self[screen_name]
 
 		return self.active
+
+	@property
+	def current_screen(self) -> Screen:
+		''' Возвращает текущий экран '''
+
+		return self.active

@@ -20,10 +20,10 @@ class Application:
 	def run(self) -> None:
 		''' Цикл приложения '''
 
-		while self.controller.RUN:
+		while True:
 			self.screen.fill('black')
 
-			self.controller.check_events()
+			self.screen_manager.current_screen.check_events()
 
 			pygame.display.flip()
 			self.timer.tick(settings.FPS)
