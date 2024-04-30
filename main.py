@@ -1,7 +1,6 @@
 import logging
 
-from model.entity.hero import Hero
-from model.entity.enemy import Goblin
+from application import Application
 
 
 # Set logging level
@@ -9,11 +8,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 def main():
-	h = Hero(name='Hero')
-	goblins = [Goblin(hp=10) for i in range(10)]
-
-	for goblin in goblins:
-		h.attack(goblin)
+	app = Application()
+	app.run()
 
 
 if __name__ == '__main__':
