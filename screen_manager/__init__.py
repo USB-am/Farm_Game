@@ -7,7 +7,7 @@ class ScreenManager(dict):
 
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		self.active: str = Screen(name='')
+		self.__active: str = Screen(name='')
 
 	def add_screen(self, screen: Screen) -> None:
 		''' Добавить экран '''
@@ -16,6 +16,7 @@ class ScreenManager(dict):
 			raise Exc.ScreenManagerExistsError
 
 		self[screen.name] = screen
+		self.__active = screen
 
 	def move_to(self, screen_name: str) -> Screen:
 		''' Перейти на экран '''
@@ -23,12 +24,12 @@ class ScreenManager(dict):
 		if screen_name not in self:
 			raise Exc.ScreenManagerExistsError
 
-		self.active = self[screen_name]
+		self.__active = self[screen_name]
 
-		return self.active
+		return self.__active
 
 	@property
 	def current_screen(self) -> Screen:
 		''' Возвращает текущий экран '''
 
-		return self.active
+		return self.__active
