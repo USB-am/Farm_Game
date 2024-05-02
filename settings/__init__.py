@@ -1,3 +1,4 @@
 SCREEN_SIZE = (800, 600)
 BLOCK_SIZE = (40, 40)
 FPS = 60
+FONT_NAME = 'Comic Sans MS'
