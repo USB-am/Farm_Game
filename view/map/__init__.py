@@ -12,25 +12,6 @@ OBJECTS = {
 }
 
 
-MAP = [
-	'####################',
-	'# SSS              #',
-	'#     SS           #',
-	'#   S              #',
-	'#   SS S SSSSSS    #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'#                  #',
-	'####################',
-]
-
-
 class Map(pygame.sprite.Group):
 	''' Карта '''
 
@@ -46,8 +27,3 @@ class Map(pygame.sprite.Group):
 				x_pos = col * BLOCK_SIZE[0]
 				y_pos = row * BLOCK_SIZE[1]
 				self.add(OBJECTS[element](x_pos, y_pos))
-
-	# def draw(self, surface: pygame.Surface) -> None:
-	# 	for sprite in self:
-	# 		sprite.draw(surface)
-	# 	print('draw is finished')

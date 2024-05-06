@@ -11,13 +11,14 @@ class Object(pygame.sprite.Sprite):
 
 	def __init__(self, x: int, y: int, image_src: str=None):
 		super().__init__()
+		self.image_src = image_src
 
-		if image_src is None:
+		if self.image_src is None:
 			self.image = pygame.Surface(settings.BLOCK_SIZE)
 			self.image.fill(pygame.Color('green'))
 		else:
 			self.image = pygame.transform.scale(
-				pygame.image.load(image_src).convert_alpha(),
+				pygame.image.load(self.image_src).convert_alpha(),
 				settings.BLOCK_SIZE
 			)
 		self.rect = pygame.Rect((x, y, *settings.BLOCK_SIZE))
