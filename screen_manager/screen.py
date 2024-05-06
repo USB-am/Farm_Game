@@ -1,5 +1,6 @@
 import pygame
 
+from .path_manager import PathManager
 from tools.properties import StringProperty
 
 
@@ -8,9 +9,10 @@ class Screen(pygame.sprite.Group):
 
 	name = StringProperty()
 
-	def __init__(self, name: str):
+	def __init__(self, name: str, path_manager: PathManager):
 		super().__init__()
 		self.name = name
+		self._path_manager = path_manager
 
 	def check_events(self) -> None:
 		''' Обработка событий '''

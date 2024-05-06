@@ -3,6 +3,8 @@ import pygame
 import settings
 from screen_manager import ScreenManager
 from screen_manager.menu import Menu
+from screen_manager.game import Game
+from screen_manager.path_manager import PathManager
 
 
 pygame.init()
@@ -17,7 +19,10 @@ class Application:
 
 		self.timer = pygame.time.Clock()
 		self.screen_manager = ScreenManager()
-		self.screen_manager.add_screen(Menu())
+		self.path_manager = PathManager(self.screen_manager)
+
+		self.screen_manager.add_screen(Menu(path_manager=self.path_manager))
+		self.screen_manager.add_screen(Game(path_manager=self.path_manager))
 
 	def run(self) -> None:
 		''' Цикл приложения '''

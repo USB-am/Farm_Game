@@ -7,11 +7,11 @@ from view.ui.menu import field
 class Menu(Screen):
 	''' Окно меню '''
 
-	def __init__(self):
-		super().__init__(name='menu')
+	def __init__(self, **kwargs):
+		super().__init__(name='menu', **kwargs)
 
 		new_game_btn = field.Button('New Game', pygame.Rect(100, 25, 300, 140))
-		new_game_btn.bind(lambda: print('New Game'))
+		new_game_btn.bind(lambda: self._path_manager.forward('game'))
 
 		load_game_btn = field.Button('Load Game', pygame.Rect(100, 165, 300, 140))
 		load_game_btn.bind(lambda: print('Load Game'))

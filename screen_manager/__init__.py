@@ -7,7 +7,7 @@ class ScreenManager(dict):
 
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		self.__active: str = Screen(name='')
+		self.__active: str = Screen(name='', path_manager=None)
 
 	def add_screen(self, screen: Screen) -> None:
 		''' Добавить экран '''
