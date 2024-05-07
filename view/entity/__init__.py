@@ -16,5 +16,18 @@ class Entity(pygame.sprite.Sprite):
 		self.xvel = 0
 		self.yvel = 0
 
+	def _check_collide(self, group: pygame.sprite.Group) -> None:
+		''' Проверка элементов на столкновение с self '''
+		for sprite in group:
+			if sprite.collide(self):
+				if self.xvel > 0:
+					self.rect.right = sprite.rect.left
+				if self.xvel < 0:
+					self.rect.left = sprite.rect.right
+				if self.yvel > 0:
+					self.rect.bottom = sprite.rect.top
+				if self.yvel < 0:
+					self.rect.top = sprite.rect.bottom
+
 	def draw(self, surface: pygame.Surface) -> None:
 		surface.blit(self.image, self.rect)
