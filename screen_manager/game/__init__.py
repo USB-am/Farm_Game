@@ -1,8 +1,26 @@
 import pygame
 
 from screen_manager.screen import Screen
+from settings import SCREEN_SIZE
 from view.entity.hero import Hero
+from view.entity import Entity
 from view.surroundings.elements import Stone
+from .camera import Camera
+
+
+def camera_configure(camera: Camera, target: Entity) -> pygame.Rect:
+	''' Конфигурирование окна '''
+
+	l, t = target.rect.topleft
+	w, h = camera.rect.size
+	l, t = -l + SCREEN_SIZE[0] / 2, -t + SCREEN_SIZE[1] / 2
+
+	l = max(-(camera.rect.width  - SCREEN_SIZE[0]), l)
+	t = max(-(camera.rect.height - SCREEN_SIZE[1]), t)
+	l = min(0, l)
+	t = min(0, t)
+
+	return pygame.Rect(l, t, w, h)
 
 
 class Game(Screen):
