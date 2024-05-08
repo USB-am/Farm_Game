@@ -11,7 +11,7 @@ class Game(Screen):
 	def __init__(self, **kwargs):
 		super().__init__(name='game', **kwargs)
 
-		self.target = Hero(40, 40, (40, 40))
+		self.target = Hero(40, 40, (40, 40), groups=self)
 
 		# Temp
 		self.add(Stone(120, 120))
@@ -45,7 +45,6 @@ class Game(Screen):
 	def update(self) -> None:
 		super().update()
 		self.target.update()
-		# self._check_collide(self.target)
 
 	def draw(self, surface: pygame.Surface) -> None:
 		super().draw(surface)

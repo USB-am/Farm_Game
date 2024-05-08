@@ -18,6 +18,7 @@ class Entity(pygame.sprite.Sprite):
 
 	def _check_collide(self, group: pygame.sprite.Group) -> None:
 		''' Проверка элементов на столкновение с self '''
+
 		for sprite in group:
 			if sprite.collide(self):
 				if self.xvel > 0:

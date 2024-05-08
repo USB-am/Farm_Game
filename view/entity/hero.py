@@ -26,10 +26,10 @@ class Hero(Entity):
 
 		if not any((self.left, self.right)):
 			self.xvel = 0
-			self._check_collide(self.groups)
 		if not any((self.up, self.down)):
 			self.yvel = 0
-			self._check_collide(self.groups)
 
 		self.rect.left += self.xvel
+		super()._check_collide(self.groups)
 		self.rect.top  += self.yvel
+		super()._check_collide(self.groups)
