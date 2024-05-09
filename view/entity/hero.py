@@ -29,7 +29,13 @@ class Hero(Entity):
 		if not any((self.up, self.down)):
 			self.yvel = 0
 
-		self.rect.left += self.xvel
+		self.rect.x += self.xvel
 		super()._check_collide(self.groups)
-		self.rect.top  += self.yvel
+		self.rect.y  += self.yvel
 		super()._check_collide(self.groups)
+
+	def collide(self, *a, **kw):
+		return False
+
+	def draw(self, surface: pygame.Surface) -> None:
+		surface.blit(self.image, (self.rect.x, self.rect.y))

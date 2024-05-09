@@ -22,4 +22,4 @@ class Camera:
 	def update(self, target: Entity) -> None:
 		''' Обновление камеры '''
 
-		self.rect = self.camera_func(self.rect, target.rect)
+		self.rect = self.camera_func(self, target)
