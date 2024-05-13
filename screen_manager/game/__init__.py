@@ -8,6 +8,7 @@ from view.entity.hero import Hero
 from view.entity import Entity
 from view.surroundings.elements import Stone
 from .camera import Camera
+from view.ui.hud.toolboard import Toolboard
 
 
 LEVEL = [
@@ -114,6 +115,7 @@ class Game(Screen):
 
 		self.is_open_inventory = False
 		self.inventory = self.target.inventory
+		self.hud = Toolboard(self.inventory[:10])
 
 	def keydown_event(self, event) -> None:
 		''' Обработка нажатия клавиши '''
@@ -161,3 +163,6 @@ class Game(Screen):
 
 		if self.is_open_inventory:
 			self.inventory.draw(surface)
+			return
+
+		self.hud.draw(surface)

@@ -1,9 +1,10 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import pygame
 
 from . import Entity
 from model.entity.inventory import Inventory as InventoryModel
+from settings import BLOCK_SIZE
 
 
 class Item:
@@ -16,7 +17,8 @@ class InventoryCell(pygame.sprite.Sprite):
 	def __init__(self, pos: Tuple[int], size: Tuple[int]):
 		super().__init__()
 		self.image = pygame.Surface((40, 40))
-		self.rect = pygame.Rect(left, top, width, height)
+		self.image.fill(pygame.Color('yellow'))
+		self.rect = pygame.Rect(*pos, *size)
 
 
 class Inventory(pygame.sprite.Group):
@@ -24,13 +26,22 @@ class Inventory(pygame.sprite.Group):
 
 	def __init__(self):
 		super().__init__()
+		self.cells: List[InventoryCell] = []
 
 		self.__model = InventoryModel(size=40)
+		for row in range(4):
+			for col in range(10):
+				cell = InventoryCell((col * BLOCK_SIZE[0], row * BLOCK_SIZE[1]), BLOCK_SIZE)
+				self.add(cell)
+				self.cells.append(cell)
 
 	def put(self, item: Item) -> None:
 		''' Положить item в инвентарь '''
 
 		self.__model.append(item)
+
+	def __getitem__(self, index: int) -> pygame.sprite.Sprite:
+		return self.cells[index]
 
 
 class Hero(Entity):
