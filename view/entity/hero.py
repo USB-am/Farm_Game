@@ -1,6 +1,36 @@
+from typing import Tuple
+
 import pygame
 
 from . import Entity
+from model.entity.inventory import Inventory as InventoryModel
+
+
+class Item:
+	pass
+
+
+class InventoryCell(pygame.sprite.Sprite):
+	''' Ячейка инвентаря '''
+
+	def __init__(self, pos: Tuple[int], size: Tuple[int]):
+		super().__init__()
+		self.image = pygame.Surface((40, 40))
+		self.rect = pygame.Rect(left, top, width, height)
+
+
+class Inventory(pygame.sprite.Group):
+	''' Инвентарь '''
+
+	def __init__(self):
+		super().__init__()
+
+		self.__model = InventoryModel(size=40)
+
+	def put(self, item: Item) -> None:
+		''' Положить item в инвентарь '''
+
+		self.__model.append(item)
 
 
 class Hero(Entity):
@@ -11,6 +41,8 @@ class Hero(Entity):
 	def __init__(self, *args, groups=pygame.sprite.Group(), **kwargs):
 		super().__init__(*args, **kwargs)
 		self.groups = groups
+
+		self.inventory = Inventory()
 
 		self.up = self.down = self.left = self.right = False
 		self.direction = 'right'

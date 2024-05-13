@@ -112,8 +112,20 @@ class Game(Screen):
 		self.camera = Camera(*self.map_.size_px)
 		self.add(self.target)
 
+		self.is_open_inventory = False
+		self.inventory = self.target.inventory
+
 	def keydown_event(self, event) -> None:
 		''' Обработка нажатия клавиши '''
+
+		if event.key == pygame.K_e:
+			if self.is_open_inventory:
+				self.is_open_inventory = False
+			else:
+				self.is_open_inventory = True
+
+		if self.is_open_inventory:
+			return
 
 		if event.key == pygame.K_w:
 			self.target.up = True
@@ -137,9 +149,15 @@ class Game(Screen):
 			self.target.right = False
 
 	def update(self) -> None:
-		self.camera.update(self.target)
-		self.target.update()
+		if self.is_open_inventory:
+			self.inventory.update()
+		else:
+			self.camera.update(self.target)
+			self.target.update()
 
 	def draw(self, surface: pygame.Surface) -> None:
 		for sprite in self:
 			surface.blit(sprite.image, self.camera.apply(sprite))
+
+		if self.is_open_inventory:
+			self.inventory.draw(surface)
