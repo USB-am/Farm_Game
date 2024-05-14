@@ -137,6 +137,8 @@ class Game(Screen):
 			self.target.down = True
 		if event.key == pygame.K_d:
 			self.target.right = True
+		if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9, pygame.K_0):
+			self.hud.select_cell = int(event.unicode)
 
 	def keyup_event(self, event) -> None:
 		''' Обработка отжатия клавиши '''
