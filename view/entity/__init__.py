@@ -29,6 +29,3 @@ class Entity(pygame.sprite.Sprite):
 					self.rect.bottom = sprite.rect.top
 				if self.yvel < 0:
 					self.rect.top = sprite.rect.bottom
-
-	def draw(self, surface: pygame.Surface) -> None:
-		surface.blit(self.image, self.rect)

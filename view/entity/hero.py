@@ -51,6 +51,8 @@ class Hero(Entity):
 
 	def __init__(self, *args, groups=pygame.sprite.Group(), **kwargs):
 		super().__init__(*args, **kwargs)
+		w, h = self.image.get_size()
+		self.image = pygame.Surface((w, h*2))
 		self.groups = groups
 
 		self.inventory = Inventory()
