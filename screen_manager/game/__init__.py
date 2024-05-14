@@ -161,7 +161,10 @@ class Game(Screen):
 
 	def draw(self, surface: pygame.Surface) -> None:
 		for sprite in self:
-			surface.blit(sprite.image, self.camera.apply(sprite))
+			# Смещение rect спрайта для эффекта наложения (роста)
+			l, t, w, h = self.camera.apply(sprite)
+			t -= sprite.image.get_size()[1] - h
+			surface.blit(sprite.image, (l, t, w, h))
 
 		if self.is_open_inventory:
 			self.inventory.draw(surface)

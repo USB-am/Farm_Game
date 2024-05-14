@@ -98,6 +98,3 @@ class Hero(Entity):
 		if self.down:
 			self.direction = 'down'
 			self.image.fill(pygame.Color('red'))
-
-	def draw(self, surface: pygame.Surface) -> None:
-		surface.blit(self.image, (self.rect.x, self.rect.y))
