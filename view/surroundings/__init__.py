@@ -15,7 +15,7 @@ class Object(pygame.sprite.Sprite):
 
 		if self.image_src is None:
 			self.image = pygame.Surface(settings.BLOCK_SIZE)
-			self.image.fill(pygame.Color('green'))
+			self.image.fill(pygame.Color('lightgrey'))
 		else:
 			self.image = pygame.transform.scale(
 				pygame.image.load(self.image_src).convert_alpha(),
