@@ -117,7 +117,16 @@ class Game(Screen):
 		self.is_open_inventory = False
 		self.inventory = self.target.inventory
 		self.hud = Toolboard(self.inventory[:10])
-		self.scale = Scale(100)
+		self.hp_scale = Scale(
+			max_value=self.target.health,
+			pos=(SCREEN_SIZE[0] - 30, SCREEN_SIZE[1] - 110),
+			size=(20, 100)
+		)
+		self.st_scale = Scale(
+			max_value=self.target.endurance,
+			pos=(SCREEN_SIZE[0] - 60, SCREEN_SIZE[1] - 110),
+			size=(20, 100)
+		)
 
 	def keydown_event(self, event) -> None:
 		''' Обработка нажатия клавиши '''
@@ -141,6 +150,8 @@ class Game(Screen):
 			self.target.right = True
 		if event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9, pygame.K_0):
 			self.hud.select_cell = int(event.unicode)
+		if event.key == pygame.K_LSHIFT:
+			self.target.is_run = True
 
 	def keyup_event(self, event) -> None:
 		''' Обработка отжатия клавиши '''
@@ -153,6 +164,8 @@ class Game(Screen):
 			self.target.left = False
 		if event.key == pygame.K_d:
 			self.target.right = False
+		if event.key == pygame.K_LSHIFT:
+			self.target.is_run = False
 
 	def update(self) -> None:
 		if self.is_open_inventory:
@@ -160,6 +173,8 @@ class Game(Screen):
 		else:
 			self.camera.update(self.target)
 			self.target.update()
+			self.hp_scale.update(self.target.health)
+			self.st_scale.update(self.target.endurance)
 
 	def draw(self, surface: pygame.Surface) -> None:
 		for sprite in self:
@@ -173,3 +188,5 @@ class Game(Screen):
 			return
 
 		self.hud.draw(surface)
+		self.hp_scale.draw(surface)
+		self.st_scale.draw(surface)

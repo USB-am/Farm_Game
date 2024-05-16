@@ -7,6 +7,23 @@ from model.entity.inventory import Inventory as InventoryModel
 from settings import BLOCK_SIZE
 
 
+class IntegerProperty:
+	''' Положительное целое число '''
+
+	def __set_name__(self, owner, name):
+		self.public_name = name
+		self.private_name = '_' + name
+
+	def __get__(self, instance, name):
+		return instance.__dict__.get(self.private_name, name)
+
+	def __set__(self, instance, value):
+		if value <= 0:
+			raise ValueError
+
+		instance.__dict__[self.private_name] = value
+
+
 class Item:
 	pass
 
@@ -48,6 +65,8 @@ class Hero(Entity):
 	''' Персонаж '''
 
 	MOVE_SPEED = 5
+	health = IntegerProperty()
+	endurance = IntegerProperty()
 
 	def __init__(self, *args, groups=pygame.sprite.Group(), **kwargs):
 		super().__init__(*args, **kwargs)
@@ -55,12 +74,18 @@ class Hero(Entity):
 		self.image = pygame.Surface((w, h*2))
 		self.groups = groups
 
+		self.health = 100
+		self.endurance = 100
+
 		self.inventory = Inventory()
 
 		self.up = self.down = self.left = self.right = False
+		self.is_run = False
 		self.direction = 'right'
 
 	def update(self) -> None:
+		self.MOVE_SPEED = 10 if self.is_run else 5
+
 		if self.left:
 			self.xvel = -self.MOVE_SPEED
 		if self.right:
@@ -74,6 +99,8 @@ class Hero(Entity):
 			self.xvel = 0
 		if not any((self.up, self.down)):
 			self.yvel = 0
+		if any((self.xvel, self.yvel)) and self.is_run:
+			self.endurance -= 1
 
 		self.rect.x += self.xvel
 		super()._check_collide(self.groups)
