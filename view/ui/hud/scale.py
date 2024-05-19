@@ -33,7 +33,10 @@ class Scale(pygame.sprite.Sprite):
 		self.image = pygame.Surface(size)
 		self.image.fill(pygame.Color('grey'))
 		self.rect = pygame.Rect(*pos, *size)
-		self.value_scale = pygame.Surface((size[0] - self._padding, int(self._value / self._max_value * size[1]) - self._padding))
+		self.value_scale = pygame.Surface((
+			size[0] - self._padding,
+			int(self._value / self._max_value * size[1] - self._padding*2))
+		)
 
 	@property
 	def value(self) -> int:
@@ -62,9 +65,15 @@ class Scale(pygame.sprite.Sprite):
 	def draw(self, surface: pygame.Surface) -> None:
 		surface.blit(self.image, self.rect)
 		l, t, w, h = self.rect
-		l += 2
-		t += self._value / self._max_value * (h + self._padding*2)
-		# t += self.value_scale.get_size()[1] - h + self._padding * 2
-		# self.value_scale = pygame.transform.scale(self.value_scale, (w, self.rect.height + t - self.rect.height))
-		print(t)
+
+		l += self._padding // 2
+		c = self._value / self._max_value
+		t -= int(c * h - h)
+		t += self._padding*2
+		self.value_scale = pygame.transform.scale(
+			self.value_scale, (
+				self.value_scale.get_size()[0],
+				self.rect.bottom - t
+			)
+		)
 		surface.blit(self.value_scale, (l, t))
