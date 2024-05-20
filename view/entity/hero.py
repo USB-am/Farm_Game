@@ -4,6 +4,7 @@ import pygame
 
 from . import Entity
 from model.entity.inventory import Inventory as InventoryModel
+from view.ui.hud.scale import Scale
 from settings import BLOCK_SIZE
 
 
@@ -76,6 +77,10 @@ class Hero(Entity):
 
 		self.health = 100
 		self.endurance = 100
+		self.health_scale = Scale(
+			max_value=self.health,
+			target=self
+		)
 
 		self.inventory = Inventory()
 
@@ -108,6 +113,7 @@ class Hero(Entity):
 		super()._check_collide(self.groups)
 
 		self.update_image()
+		self.update_scales()
 
 	def collide(self, *a, **kw) -> bool:
 		return False
@@ -125,3 +131,8 @@ class Hero(Entity):
 		if self.down:
 			self.direction = 'down'
 			self.image.fill(pygame.Color('red'))
+
+	def update_scales(self) -> None:
+		''' Обновление шкал '''
+
+		self.health_scale.update(self.health)

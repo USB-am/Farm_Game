@@ -9,7 +9,7 @@ from view.entity import Entity
 from view.surroundings.elements import Stone
 from .camera import Camera
 from view.ui.hud.toolboard import Toolboard
-from view.ui.hud.scale import Scale
+from view.ui.hud.scale import VerticalScale
 
 
 LEVEL = [
@@ -112,17 +112,17 @@ class Game(Screen):
 		self.map_ = Map(LEVEL)
 		self.add(*self.map_)
 		self.camera = Camera(*self.map_.size_px)
-		self.add(self.target)
+		self.add(self.target, self.target.health_scale)
 
 		self.is_open_inventory = False
 		self.inventory = self.target.inventory
 		self.hud = Toolboard(self.inventory[:10])
-		self.hp_scale = Scale(
+		self.hp_scale = VerticalScale(
 			max_value=self.target.health,
 			pos=(SCREEN_SIZE[0] - 30, SCREEN_SIZE[1] - 110),
 			size=(20, 100)
 		)
-		self.st_scale = Scale(
+		self.st_scale = VerticalScale(
 			max_value=self.target.endurance,
 			pos=(SCREEN_SIZE[0] - 60, SCREEN_SIZE[1] - 110),
 			size=(20, 100)
