@@ -23,4 +23,4 @@ class Camera:
 		t = min(0, t)
 		t = max(-(self.rect.height - settings.SCREEN_SIZE[1]), t)
 
-		self.rect = pygame.Rect(l, t, *self.rect.size)
+		self.rect = pg.Rect(l, t, *self.rect.size)

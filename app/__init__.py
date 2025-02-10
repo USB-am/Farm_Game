@@ -22,6 +22,7 @@ class Application:
 			self.window.fill('black')
 
 			self.screen_manager.current_screen.check_event()
+			self.screen_manager.current_screen.update()
 			self.screen_manager.current_screen.draw(self.window)
 
 			pg.display.flip()

@@ -14,15 +14,30 @@ class TestHero(pg.sprite.Sprite):
 		super().__init__()
 
 		self.image = pg.Surface((50, 50))
-		self.image.fill('lightgreen')
+		self.image.fill('green')
 		self.rect = pg.Rect(*pos, 50, 50)
+		self.speed = 100
+
+	def event(self, event) -> None:
+		if event.type == pg.KEYDOWN:
+			if event.key == pg.K_w:
+				self.rect.top -= self.speed
+			elif event.key == pg.K_a:
+				self.rect.left -= self.speed
+			elif event.key == pg.K_s:
+				self.rect.top += self.speed
+			elif event.key == pg.K_d:
+				self.rect.left += self.speed
 
 
 class GameScreen(Screen):
 	def __init__(self):
 		super().__init__()
-		self.camera = Camera(200, 150)
-		self.add(Map(MAP))
+		self.target = TestHero((100, 100))
+		self._map = Map(MAP)
+		self.camera = Camera(*self._map.size_px)
+		self.add(self._map)
+		self.add(self.target)
 
 	def check_event(self) -> None:
 		for event in pg.event.get():
@@ -37,4 +52,7 @@ class GameScreen(Screen):
 	def draw(self, parent: pg.Surface) -> None:
 		for sprite in self.sprites():
 			pos_rect = self.camera.apply(sprite)
-			parent.blit(sprite.image, pos_rect)
+			parent.blit(sprite.image, (pos_rect))
+
+	def update(self) -> None:
+		self.camera.update(self.target)
