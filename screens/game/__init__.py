@@ -1,10 +1,21 @@
 import sys
+from dataclasses import dataclass
 
 import pygame as pg
 
 from screens.screen import Screen
 from .map import Map, MAP
 from .camera import Camera
+
+
+@dataclass
+class Vector2D:
+	x: int
+	y: int
+
+	def __call__(self, x: int, y: int) -> None:
+		self.x = x
+		self.y = y
 
 
 class TestHero(pg.sprite.Sprite):
@@ -16,24 +27,34 @@ class TestHero(pg.sprite.Sprite):
 		self.image = pg.Surface((50, 50))
 		self.image.fill('green')
 		self.rect = pg.Rect(*pos, 50, 50)
-		self.speed = 100
+		self.vec = Vector2D(0, 0)
+		self.speed = 10
 
 	def event(self, event) -> None:
 		if event.type == pg.KEYDOWN:
 			if event.key == pg.K_w:
-				self.rect.top -= self.speed
-			elif event.key == pg.K_a:
-				self.rect.left -= self.speed
-			elif event.key == pg.K_s:
-				self.rect.top += self.speed
-			elif event.key == pg.K_d:
-				self.rect.left += self.speed
+				self.vec.y -= self.speed
+			if event.key == pg.K_a:
+				self.vec.x -= self.speed
+			if event.key == pg.K_s:
+				self.vec.y += self.speed
+			if event.key == pg.K_d:
+				self.vec.x += self.speed
+
+		if event.type == pg.KEYUP:
+			if event.key in (pg.K_w, pg.K_s):
+				self.vec.y = 0
+			if event.key in (pg.K_a, pg.K_d):
+				self.vec.x = 0
+
+		self.rect.top += self.vec.y
+		self.rect.left += self.vec.x
 
 
 class GameScreen(Screen):
 	def __init__(self):
 		super().__init__()
-		self.target = TestHero((100, 100))
+		self.target = TestHero((60, 60))
 		self._map = Map(MAP)
 		self.camera = Camera(*self._map.size_px)
 		self.add(self._map)
@@ -45,6 +66,9 @@ class GameScreen(Screen):
 				sys.exit()
 			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
 				sys.exit()
+
+			if event.type == pg.KEYDOWN and event.key == pg.K_F1:
+				self.is_show_fps = not self.is_show_fps
 
 			for sprite in self.sprites():
 				sprite.event(event)
