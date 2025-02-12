@@ -35,6 +35,9 @@ class Stone(pg.sprite.Sprite):
 	def event(self, event) -> None:
 		pass
 
+	def collide(self, rect: pg.Rect) -> bool:
+		return self.rect.colliderect(rect)
+
 
 class Map(pg.sprite.Group):
 	''' Карта '''
