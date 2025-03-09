@@ -101,6 +101,9 @@ class Character(pg.sprite.Sprite):
 	def __init__(self, pos, group):
 		super().__init__()
 
+		self.max_hp = 500
+		self.hp = 500
+
 		self.image = pg.Surface((50, 50))
 		self.image.fill('green')
 		self.rect = pg.Rect(*pos, 50, 50)

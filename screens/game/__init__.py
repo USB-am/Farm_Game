@@ -6,6 +6,7 @@ from screens.screen import Screen
 from .map import Map, MAP
 from .camera import Camera
 from .character import Character
+from .character.hud import HUD
 
 
 class GameScreen(Screen):
@@ -13,6 +14,7 @@ class GameScreen(Screen):
 		super().__init__()
 		self._map = Map(MAP)
 		self.target = Character((60, 60), group=self._map)
+		self.hud = HUD(self.target)
 		self.camera = Camera(*self._map.size_px)
 		self.add(self._map)
 		self.add(self.target)
@@ -37,6 +39,8 @@ class GameScreen(Screen):
 
 		if self.target.inventory.is_open:
 			self.target.inventory.draw(parent)
+
+		self.hud.draw(parent)
 
 	def update(self) -> None:
 		self.camera.update(self.target)
