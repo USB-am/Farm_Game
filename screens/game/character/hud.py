@@ -24,17 +24,8 @@ class _InnerScale(pg.sprite.Sprite):
 		self._value = max_value
 		self.size = self.width, self.height = size
 		self.image = pg.Surface(size)
+		self.image.fill('lightgreen')
 		self.rect = pg.Rect(0, 0, *size)
-
-	@property
-	def position(self) -> Tuple[int]:
-		return self.rect.topleft
-
-	@position.setter
-	def position(self, position: Tuple[int]) -> None:
-		x, y = position
-		self.rect.x = x
-		self.rect.y = y
 
 	@property
 	def value(self) -> int:
@@ -47,6 +38,8 @@ class _InnerScale(pg.sprite.Sprite):
 
 		self._value = value
 		self.rect.height = self.__calc_scale_height()
+		# self.image = pg.Surface(self.rect.size)
+		# self.image.fill('lightgreen')
 		self.__recolor()
 
 	def __calc_scale_height(self) -> int:
@@ -64,23 +57,28 @@ class _Scale(pg.sprite.Group):
 		super().__init__()
 
 		self._target = target
-		self._target_scale = _InnerScale(size=(50, 250), max_value=self._target.max_hp)
-		self.add(_ScaleBackgroud(size=(50, 250), position=position, color='white'))
-		self.add(self._target_scale)
+		size = (50, 250)
+		self._scale_bg = _ScaleBackgroud(size=size, position=position, color='white')
+		self._target_scale = _InnerScale(size=size, max_value=self._target.max_hp)
 
 	def update_value(self) -> None:
 		''' Обновить значение '''
 		raise AttributeError('Method "update_value" is not overriden!')
+
+	def draw(self, parent: pg.Surface) -> None:
+		parent.blit(self._scale_bg.image, self._scale_bg.rect.topleft)
+		self._scale_bg.image.blit(self._target_scale.image, self._target_scale.rect.bottomleft)
+		# self._scale_bg.image.blit(self._target_scale.image, self._target_scale.rect.topleft)
 
 
 class HPScale(_Scale):
 	''' Полоса здоровья '''
 
 	def __init__(self, target: 'Character'):
-		super().__init__(target=target, position=(350, 350), color='red')
+		super().__init__(target=target, position=(150, 150), color='red')
 
 	def update_value(self) -> None:
-		self._target_scale.value = self.target.hp
+		self._target_scale.value = self._target.hp
 
 
 class HUD(pg.sprite.Group):
@@ -93,5 +91,4 @@ class HUD(pg.sprite.Group):
 		self.hp_scale = HPScale(self.target)
 
 	def draw(self, parent: pg.Surface) -> None:
-		for sprite in self:
-			sprite.draw(parent)
+		self.hp_scale.draw(parent)

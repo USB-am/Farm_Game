@@ -29,6 +29,14 @@ class GameScreen(Screen):
 			if event.type == pg.KEYDOWN and event.key == pg.K_F1:
 				self.is_show_fps = not self.is_show_fps
 
+			if event.type == pg.KEYDOWN:
+				if event.key == pg.K_f:
+					self.target.hp -= 50
+					self.hud.hp_scale.update_value()
+				elif event.key == pg.K_g:
+					self.target.hp += 50
+					self.hud.hp_scale.update_value()
+
 			for sprite in self.sprites():
 				sprite.event(event)
 
