@@ -26,16 +26,13 @@ class GameScreen(Screen):
 			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
 				sys.exit()
 
-			if event.type == pg.KEYDOWN and event.key == pg.K_F1:
-				self.is_show_fps = not self.is_show_fps
-
 			if event.type == pg.KEYDOWN:
 				if event.key == pg.K_f:
 					self.target.hp -= 50
-					self.hud.hp_scale.update_value()
-				elif event.key == pg.K_g:
-					self.target.hp += 50
-					self.hud.hp_scale.update_value()
+					print(self.target.hp)
+
+			if event.type == pg.KEYDOWN and event.key == pg.K_F1:
+				self.is_show_fps = not self.is_show_fps
 
 			for sprite in self.sprites():
 				sprite.event(event)
@@ -51,4 +48,5 @@ class GameScreen(Screen):
 		self.hud.draw(parent)
 
 	def update(self) -> None:
+		self.hud.update()
 		self.camera.update(self.target)
