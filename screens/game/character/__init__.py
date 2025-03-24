@@ -1,3 +1,4 @@
+import enum
 from typing import Tuple
 from dataclasses import dataclass
 
@@ -95,6 +96,15 @@ class Inventory(pg.sprite.Group):
 			sprite.draw(self.background.image)
 
 
+class Direction(enum.Enum):
+	''' Направление персонажа '''
+
+	UP = 0
+	LEFT = 1
+	DOWN = 2
+	RIGHT = 3
+
+
 class Character(pg.sprite.Sprite):
 	''' Персонаж '''
 
@@ -111,6 +121,7 @@ class Character(pg.sprite.Sprite):
 		self.prev_x, self.prev_y = pos
 		self.vec = Vector2D(0, 0)
 		self.speed = 10
+		self.direction = Direction.LEFT
 		self.inventory = Inventory()
 
 	def event(self, event) -> None:
@@ -124,12 +135,16 @@ class Character(pg.sprite.Sprite):
 		if event.type == pg.KEYDOWN:
 			if event.key == pg.K_w:
 				self.vec.y = -self.speed
-			if event.key == pg.K_a:
-				self.vec.x = -self.speed
+				self.direction = Direction.UP
 			if event.key == pg.K_s:
 				self.vec.y = self.speed
+				self.direction = Direction.DOWN
+			if event.key == pg.K_a:
+				self.vec.x = -self.speed
+				self.direction = Direction.LEFT
 			if event.key == pg.K_d:
 				self.vec.x = self.speed
+				self.direction = Direction.RIGHT
 			if event.key == pg.K_e:
 				self.inventory.open()
 

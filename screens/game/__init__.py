@@ -26,11 +26,6 @@ class GameScreen(Screen):
 			if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
 				sys.exit()
 
-			if event.type == pg.KEYDOWN:
-				if event.key == pg.K_f:
-					self.target.hp -= 50
-					print(self.target.hp)
-
 			if event.type == pg.KEYDOWN and event.key == pg.K_F1:
 				self.is_show_fps = not self.is_show_fps
 
