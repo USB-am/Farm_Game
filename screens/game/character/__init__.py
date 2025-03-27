@@ -1,5 +1,5 @@
 import enum
-from typing import Tuple
+from typing import Tuple, List
 from dataclasses import dataclass
 
 import pygame as pg
@@ -43,7 +43,7 @@ class InventoryCell(pg.sprite.Sprite):
 		self.item = None
 		self.count = 0
 
-	def add(self, item: 'Item', count: int=1) -> None:
+	def add_item(self, item: 'Item', count: int=1) -> None:
 		if self.item is None:
 			self.item = item
 			self.count += count
@@ -72,12 +72,15 @@ class Inventory(pg.sprite.Group):
 		self.is_open = False
 		self.background = InventoryBackground()
 
+		self.inventory_cells: InventoryCell[List] = []
+
 		for cell in range(30):
 			row = cell // 10
 			col = cell % 10
 			pos = (col * 30, row * 30)
 
-			self.add(InventoryCell((25, 25), pos))
+			self.inventory_cells.append(InventoryCell((25, 25), pos))
+			self.add(self.inventory_cells[-1])
 
 	def open(self):
 		self.is_open = True
@@ -94,6 +97,16 @@ class Inventory(pg.sprite.Group):
 		parent.blit(self.background.image, self.background.rect.topleft)
 		for sprite in self.sprites():
 			sprite.draw(self.background.image)
+
+	def add_item(self, item: 'Item', count: int) -> None:
+		''' Добавить предмет в инвентарь '''
+
+		for cell in self.inventory_cells:
+			if not isinstance(cell.item, type(item)) and cell.item is not None:
+				continue
+
+			cell.add_item(item, count)
+			break
 
 
 class Direction(enum.Enum):
@@ -166,5 +179,7 @@ class Character(pg.sprite.Sprite):
 
 		for sprite in group:
 			if sprite.collide(self.rect):
+				if sprite.has_collide_event:
+					sprite.target_collide_event(self)
 				return True
 		return False

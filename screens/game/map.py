@@ -3,11 +3,40 @@ from typing import Tuple
 import pygame as pg
 
 import settings
+from .items.tools import Shovel
+
+
+class MapElement(pg.sprite.Sprite):
+	has_collide_event = False
+
+	def __init__(self, pos: Tuple[int]):
+		super().__init__()
+		self.image = pg.Surface(settings.BLOCK_SIZE)
+		self.rect = pg.Rect(*pos, *settings.BLOCK_SIZE)
+
+	def event(self, instance) -> None:
+		pass
+
+	def collide(self, rect: pg.Rect) -> bool:
+		return self.rect.colliderect(rect)
+
+
+class Drop(MapElement):
+	has_collide_event = True
+
+	def __init__(self, pos: Tuple[int]):
+		super().__init__(pos)
+		self.image.fill('red')
+
+	def target_collide_event(self, target: 'Character') -> None:
+		''' Событие коллизии с таргетом '''
+		target.inventory.add_item(Shovel(), 1)
+		self.kill()
 
 
 MAP = '''
 ###################
-#                 #
+#  D              #
 #   ##  ##        #
 #                 #
 #     ##          #
@@ -25,18 +54,10 @@ MAP = '''
 #                 #
 ###################'''
 
-class Stone(pg.sprite.Sprite):
+class Stone(MapElement):
 	def __init__(self, pos: Tuple[int]):
-		super().__init__()
-		self.image = pg.Surface(settings.BLOCK_SIZE)
+		super().__init__(pos)
 		self.image.fill('lightgrey')
-		self.rect = pg.Rect(*pos, *settings.BLOCK_SIZE)
-
-	def event(self, event) -> None:
-		pass
-
-	def collide(self, rect: pg.Rect) -> bool:
-		return self.rect.colliderect(rect)
 
 
 class Map(pg.sprite.Group):
@@ -64,6 +85,9 @@ class Map(pg.sprite.Group):
 				if element == '#':
 					stone = Stone(pos=(col*60, row*60))
 					self.add(stone)
+				if element == 'D':
+					drop = Drop(pos=(col*60, row*60))
+					self.add(drop)
 
 	@property
 	def size(self) -> Tuple[int]:
