@@ -37,6 +37,8 @@ class InventoryCell(pg.sprite.Sprite):
 	def __init__(self, size: Tuple[int], pos: Tuple[int]):
 		super().__init__()
 
+		self.size = size
+		self.pos = pos
 		self.image = pg.Surface(size)
 		self.image.fill('lightgreen')
 		self.rect = pg.Rect(*pos, *size)
@@ -60,7 +62,12 @@ class InventoryCell(pg.sprite.Sprite):
 		return item
 
 	def draw(self, parent: pg.Surface) -> None:
-		parent.blit(self.image, self.rect.topleft)
+		if self.item is None:
+			parent.blit(self.image, self.rect.topleft)
+		else:
+			item_image = pg.Surface(self.size)
+			item_image.fill(self.item.image_color)
+			parent.blit(item_image, self.rect.topleft)
 
 
 class Inventory(pg.sprite.Group):

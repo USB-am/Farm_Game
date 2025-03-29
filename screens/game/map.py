@@ -3,6 +3,7 @@ from typing import Tuple
 import pygame as pg
 
 import settings
+from settings.assets_path import STONE_ASSET, SHOVEL_TOOL
 from .items.tools import Shovel
 
 
@@ -11,7 +12,8 @@ class MapElement(pg.sprite.Sprite):
 
 	def __init__(self, pos: Tuple[int]):
 		super().__init__()
-		self.image = pg.Surface(settings.BLOCK_SIZE)
+		self.image = pg.image.load(self.image_path)
+		self.image = pg.transform.scale(self.image, settings.BLOCK_SIZE)
 		self.rect = pg.Rect(*pos, *settings.BLOCK_SIZE)
 
 	def event(self, instance) -> None:
@@ -23,10 +25,7 @@ class MapElement(pg.sprite.Sprite):
 
 class Drop(MapElement):
 	has_collide_event = True
-
-	def __init__(self, pos: Tuple[int]):
-		super().__init__(pos)
-		self.image.fill('red')
+	image_path = SHOVEL_TOOL
 
 	def target_collide_event(self, target: 'Character') -> None:
 		''' Событие коллизии с таргетом '''
@@ -55,9 +54,7 @@ MAP = '''
 ###################'''
 
 class Stone(MapElement):
-	def __init__(self, pos: Tuple[int]):
-		super().__init__(pos)
-		self.image.fill('lightgrey')
+	image_path = STONE_ASSET
 
 
 class Map(pg.sprite.Group):
