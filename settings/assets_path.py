@@ -5,6 +5,9 @@ BASE_DIR = os.getcwd()
 
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
 
+CHARACTER_ASSETS = os.path.join(ASSETS_DIR, 'character')
+CHARACTER = os.path.join(CHARACTER_ASSETS, 'Pink_Monster', 'Pink_Monster.png')
+
 LANDSCAPE = os.path.join(ASSETS_DIR, 'landscape')
 STONE_ASSET = os.path.join(LANDSCAPE, 'stone.png')
 

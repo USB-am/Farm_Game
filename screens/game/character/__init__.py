@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import pygame as pg
 
 import settings
+from settings import assets_path as assets
 
 
 @dataclass
@@ -115,10 +116,9 @@ class Inventory(pg.sprite.Group):
 			)
 
 			for cell in self.inventory_cells:
+				cell.hover = False
 				if cell.rect.collidepoint(offset_mouse_position):
 					cell.hover = True
-					continue
-				cell.hover = False
 
 	def draw(self, parent: pg.Surface) -> None:
 		parent.blit(self.background.image, self.background.rect.topleft)
@@ -154,8 +154,9 @@ class Character(pg.sprite.Sprite):
 		self.max_hp = 500
 		self.hp = 500
 
-		self.image = pg.Surface((50, 50))
-		self.image.fill('green')
+		# self.image = pg.Surface((50, 50))
+		# self.image.fill('green')
+		self.image = pg.image.load(assets.CHARACTER)
 		self.rect = pg.Rect(*pos, 50, 50)
 		self.group = group
 		self.prev_x, self.prev_y = pos
