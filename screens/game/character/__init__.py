@@ -34,16 +34,17 @@ class InventoryBackground(pg.sprite.Sprite):
 class InventoryCell(pg.sprite.Sprite):
 	''' Ячейка инвентаря '''
 
-	def __init__(self, size: Tuple[int], pos: Tuple[int]):
+	def __init__(self, size: Tuple[int], position: Tuple[int]):
 		super().__init__()
 
 		self.size = size
-		self.pos = pos
+		self.position = position
 		self.image = pg.Surface(size)
 		self.image.fill('lightgreen')
-		self.rect = pg.Rect(*pos, *size)
+		self.rect = pg.Rect(*position, *size)
 		self.item = None
 		self.count = 0
+		self.hover = False
 
 	def add_item(self, item: 'Item', count: int=1) -> None:
 		if self.item is None:
@@ -62,9 +63,13 @@ class InventoryCell(pg.sprite.Sprite):
 		return item
 
 	def draw(self, parent: pg.Surface) -> None:
-		if self.item is None:
-			parent.blit(self.image, self.rect.topleft)
+		if self.hover:
+			self.image.fill('lightblue')
 		else:
+			self.image.fill('lightgreen')
+
+		parent.blit(self.image, self.rect.topleft)
+		if self.item is not None:
 			item_image = pg.transform.scale(self.item.image, self.size)
 			parent.blit(item_image, self.rect.topleft)
 
@@ -83,9 +88,12 @@ class Inventory(pg.sprite.Group):
 		for cell in range(30):
 			row = cell // 10
 			col = cell % 10
-			pos = (col * 30, row * 30)
+			pos = (20 + col * (settings.INVENTORY_CELL_SIZE[0] + 5),
+			       20 + row * (settings.INVENTORY_CELL_SIZE[1] + 5))
 
-			self.inventory_cells.append(InventoryCell((25, 25), pos))
+			self.inventory_cells.append(InventoryCell(
+				size=settings.INVENTORY_CELL_SIZE,
+				position=pos))
 			self.add(self.inventory_cells[-1])
 
 	def open(self):
@@ -98,6 +106,19 @@ class Inventory(pg.sprite.Group):
 		if event.type == pg.KEYDOWN:
 			if event.key == pg.K_e:
 				self.close()
+
+		if event.type == pg.MOUSEMOTION:
+			pos_x, pos_y = event.pos
+			offset_mouse_position = (
+				pos_x - self.background.rect.x,
+				pos_y - self.background.rect.y
+			)
+
+			for cell in self.inventory_cells:
+				if cell.rect.collidepoint(offset_mouse_position):
+					cell.hover = True
+					continue
+				cell.hover = False
 
 	def draw(self, parent: pg.Surface) -> None:
 		parent.blit(self.background.image, self.background.rect.topleft)
