@@ -65,8 +65,7 @@ class InventoryCell(pg.sprite.Sprite):
 		if self.item is None:
 			parent.blit(self.image, self.rect.topleft)
 		else:
-			item_image = pg.Surface(self.size)
-			item_image.fill(self.item.image_color)
+			item_image = pg.transform.scale(self.item.image, self.size)
 			parent.blit(item_image, self.rect.topleft)
 
 
