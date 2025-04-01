@@ -18,6 +18,9 @@ class _VerticalScale(pg.sprite.Sprite):
 		self.image.fill(self.color)
 		self.rect = pg.Rect(*position, *size)
 
+	def draw(self, parent: pg.Surface) -> None:
+		parent.blit(self.image, self.rect.topleft)
+
 
 class HPScale(_VerticalScale):
 	''' Полоса здоровья '''
@@ -39,6 +42,26 @@ class HPScale(_VerticalScale):
 		self.rect.y = pos_y
 
 
+class ToolPanel(pg.sprite.Group):
+	''' Панель инструментов '''
+
+	def __init__(self, inventory, position: Tuple[int]):
+		super().__init__()
+
+		self.inventory = inventory
+		self.position = position
+		self.size = (int(SCREEN_SIZE[0]*.8), 75)
+		self.background = pg.Surface(self.size)
+		self.background.fill('red')
+		self.background_rect = pg.Rect(self.position, self.size)
+		self.add(*self.inventory.inventory_cells[:10])
+
+	def draw(self, parent: pg.Surface) -> None:
+		parent.blit(self.background, self.background_rect.topleft)
+		for cell in self:
+			cell.draw(self.background)
+
+
 class HUD(pg.sprite.Group):
 	''' HUD персонажа '''
 
@@ -51,5 +74,14 @@ class HUD(pg.sprite.Group):
 			position=(SCREEN_SIZE[0]-50, SCREEN_SIZE[1]-200))
 		self.add(self.hp_scale)
 
+		self.tool_panel = ToolPanel(
+			inventory=self.target.inventory,
+			position=(int(SCREEN_SIZE[0]*.1), SCREEN_SIZE[1]-75))
+		self.add(self.tool_panel)
+
 	def update(self):
 		[sprite.update() for sprite in self]
+
+	def draw(self, parent):
+		self.hp_scale.draw(parent)
+		self.tool_panel.draw(parent)
