@@ -35,7 +35,8 @@ class GameScreen(Screen):
 	def draw(self, parent: pg.Surface) -> None:
 		for sprite in self.sprites():
 			pos_rect = self.camera.apply(sprite)
-			parent.blit(sprite.image, (pos_rect))
+			# parent.blit(sprite.image, (pos_rect))
+			sprite.draw(parent, pos_rect)
 
 		if self.target.inventory.is_open:
 			self.target.inventory.draw(parent)

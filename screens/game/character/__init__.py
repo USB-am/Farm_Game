@@ -211,3 +211,7 @@ class Character(pg.sprite.Sprite):
 					sprite.target_collide_event(self)
 				return True
 		return False
+
+	def draw(self, parent: pg.Surface, camera_rect: pg.Rect) -> None:
+		# parent.blit(self.image, self.rect.bottomleft)
+		parent.blit(self.image, camera_rect)

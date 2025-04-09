@@ -3,7 +3,7 @@ from typing import Tuple
 import pygame as pg
 
 import settings
-from settings.assets_path import STONE_ASSET, SHOVEL_TOOL
+from settings.assets_path import STONE_ASSET, SHOVEL_TOOL, HOUSE_ASSET
 from .items.tools import Shovel
 
 
@@ -22,6 +22,9 @@ class MapElement(pg.sprite.Sprite):
 	def collide(self, rect: pg.Rect) -> bool:
 		return self.rect.colliderect(rect)
 
+	def draw(self, parent: pg.Surface, camera_rect: pg.Rect) -> None:
+		parent.blit(self.image, camera_rect)
+
 
 class Drop(MapElement):
 	has_collide_event = True
@@ -36,7 +39,7 @@ class Drop(MapElement):
 MAP = '''
 ###################
 #  D              #
-#   ##  ##        #
+#   ##   H        #
 #                 #
 #     ##          #
 #                 #
@@ -54,7 +57,23 @@ MAP = '''
 ###################'''
 
 class Stone(MapElement):
+	''' Камень '''
 	image_path = STONE_ASSET
+
+
+class House(MapElement):
+	''' Дом '''
+	image_path = HOUSE_ASSET
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		size_image = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1]*2)
+		size_rect = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1])
+		# pos = (self.rect.x - settings.BLOCK_SIZE[0],
+		#        self.rect.y - settings.BLOCK_SIZE[1])
+		self.image = pg.transform.scale(self.image, size_image)
+		self.rect = pg.Rect(*(self.rect.x, self.rect.y), *size_rect)
 
 
 class Map(pg.sprite.Group):
@@ -85,6 +104,9 @@ class Map(pg.sprite.Group):
 				if element == 'D':
 					drop = Drop(pos=(col*60, row*60))
 					self.add(drop)
+				if element == 'H':
+					house = House(pos=(col*60, row*60))
+					self.add(house)
 
 	@property
 	def size(self) -> Tuple[int]:
