@@ -12,6 +12,7 @@ class MapElement(pg.sprite.Sprite):
 
 	def __init__(self, pos: Tuple[int]):
 		super().__init__()
+		self.pos = pos
 		self.image = pg.image.load(self.image_path)
 		self.image = pg.transform.scale(self.image, settings.BLOCK_SIZE)
 		self.rect = pg.Rect(*pos, *settings.BLOCK_SIZE)
@@ -68,12 +69,19 @@ class House(MapElement):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
-		size_image = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1]*2)
-		size_rect = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1])
-		# pos = (self.rect.x - settings.BLOCK_SIZE[0],
-		#        self.rect.y - settings.BLOCK_SIZE[1])
-		self.image = pg.transform.scale(self.image, size_image)
-		self.rect = pg.Rect(*(self.rect.x, self.rect.y), *size_rect)
+		self.size_image = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1]*2)
+		self.size_rect = (settings.BLOCK_SIZE[0]*3, settings.BLOCK_SIZE[1])
+		self.image = pg.transform.scale(self.image, self.size_image)
+		self.rect = pg.Rect(
+			self.rect.x,
+			self.rect.y,
+			*self.size_rect)
+
+	def draw(self, parent: pg.Surface, camera_rect: pg.Rect) -> None:
+		roof_rect = camera_rect.copy()
+		roof_rect.y -= settings.BLOCK_SIZE[1]
+		parent.blit(self.image, roof_rect, (0, 0, *self.size_rect))
+		parent.blit(self.image, camera_rect, (0, settings.BLOCK_SIZE[1], *self.size_rect))
 
 
 class Map(pg.sprite.Group):
